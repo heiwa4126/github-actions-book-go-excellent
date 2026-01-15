@@ -6,8 +6,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # ステップ1: チェックアウト
-      - uses: actions/setup-go@v5 # ステップ2: 言語セットアップ
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
         with:
-          go-version: "1.22"
+          go-version: "1.25"
+          cache: false # 依存がない->go.sumがない->キャッシュキーにならないので一時キャッシュ無効化
       - run: go test go/excellent/*.go # ステップ3: テストの実行
