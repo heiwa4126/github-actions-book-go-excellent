@@ -9,7 +9,7 @@ func EvenOrOdd(number int) string {
 }
 
 func main() {
-	// Example usage!!!!
+	// Example usage!!!!!!
 	result := EvenOrOdd(5)
 	println(result) // Output: odd
 }
