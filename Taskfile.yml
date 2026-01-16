@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+vars:
+  GO_PROJECT: "go/excellent"
+
+tasks:
+  default:
+    cmds:
+      - task: lint
+      - task: lint-workflows
+
+  hello:
+    desc: Print a greeting message
+    cmds:
+      - echo "{{.GREETING}}"
+
+  run:
+    desc: Run excellent Go program
+    cmds:
+      - go run "{{.GO_PROJECT}}/main.go"
+    silent: true
+
+  test:
+    desc: Test Go code
+    dir: "{{ .GO_PROJECT }}"
+    cmds:
+      - go test -v
+  lint:
+    desc: Lint Go code
+    dir: "{{ .GO_PROJECT }}"
+    cmds:
+      - golangci-lint run
+
+  lint-workflows:
+    desc: Lint GitHub Workflows
+    cmds:
+      - actionlint --verbose
+
+  lint-workflows-docker:
+    desc: Lint GitHub Workflows with Docker
+    cmds:
+      - docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" rhysd/actionlint:latest --verbose
