@@ -27,6 +27,17 @@ tasks:
     dir: "{{ .GO_PROJECT }}"
     cmds:
       - go test -v
+
+  format:
+    desc: Format Go code
+    dir: "{{ .GO_PROJECT }}"
+    cmds:
+      - go fmt ./...
+  format-all:
+    cmds:
+      - task: format
+      - textlint --fix "**/*.md"
+
   lint:
     desc: Lint Go code
     dir: "{{ .GO_PROJECT }}"

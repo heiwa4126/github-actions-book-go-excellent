@@ -9,7 +9,7 @@
 git switch feature-branch # or `git switch -c feature-branch`
 # do something
 git commit -am 'foobar'
-git push origen feature-branch
+git push origin feature-branch
 gh pr create -t "新機能追加" -b "詳細説明" -B main -H feature-branch
 ```
 
@@ -18,7 +18,7 @@ gh pr create -t "新機能追加" -b "詳細説明" -B main -H feature-branch
 ```sh
 gh pr list
 # 自動テストの結果を確認
-gh pr check <プルリクIDまたはURL>
+gh pr checks <プルリクIDまたはURL>
 # 拒否する
 gh pr close <プルリクIDまたはURL>
 # マージする
