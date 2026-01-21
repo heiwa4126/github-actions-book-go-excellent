@@ -45,6 +45,11 @@ tasks:
     cmds:
       - actionlint --verbose
 
+  lint-workflows2:
+    desc: Lint GitHub Workflows
+    cmds:
+      - "action-validator -v .github/workflows/*.yml .github/actions/*/action.yml"
+
   lint-workflows-docker:
     desc: Lint GitHub Workflows with Docker
     cmds:
