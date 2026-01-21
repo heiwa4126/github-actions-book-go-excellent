@@ -2,12 +2,15 @@ name: Static analysis
 on:
   pull_request:
     paths: [".github/workflows/*.yml", ".github/workflows/*.yaml"]
-defaults: # デフォルトシェル
+
+defaults: # デフォルトシェル.
   run:
-    shell: bash
+    shell: bash # `bash --noprofile --norc -eo pipefail {0}`
+
 concurrency: # 自動キャンセル
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
 jobs:
   lint:
     runs-on: ubuntu-latest

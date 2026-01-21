@@ -24,14 +24,21 @@ tasks:
 
   test:
     desc: Test Go code
-    dir: "{{ .GO_PROJECT }}"
+    dir: "{{.GO_PROJECT}}"
     cmds:
       - go test -v
+
   lint:
     desc: Lint Go code
-    dir: "{{ .GO_PROJECT }}"
+    dir: "{{.GO_PROJECT}}"
     cmds:
       - golangci-lint run
+
+  fmt:
+    desc: Lint Go code
+    dir: "{{.GO_PROJECT}}"
+    cmds:
+      - go fmt ./...
 
   lint-workflows:
     desc: Lint GitHub Workflows

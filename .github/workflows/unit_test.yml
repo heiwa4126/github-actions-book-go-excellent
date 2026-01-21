@@ -2,6 +2,11 @@ name: Unit Test
 on:
   pull_request: # プルリクエストが作成されたら起動
     paths: ["go/**/*.go"] # ただしGoのファイル変更時のみ
+
+defaults: # デフォルトシェル. `bash --noprofile --norc -eo pipefail {0}`
+  run:
+    shell: bash
+
 jobs:
   test:
     runs-on: ubuntu-latest
