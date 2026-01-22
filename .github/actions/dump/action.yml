@@ -17,10 +17,16 @@ outputs: # アクションの出力
 runs:
   using: composite # アクションの実装方式
   steps: # アクションのメインロジック
-    - run: printenv | sort
+    - run: |
+        echo "::group::Show environment variables" # ロググループ化の開始
+        printenv | sort
+        echo "::endgroup::"                        # ロググループ化の終了
       shell: bash
 
-    - run: echo "${CONTEXT}"
+    - run: |
+        echo "::group::Show github context"
+        echo "${CONTEXT}"
+        echo "::endgroup::"
       if: ${{ inputs.enable-context == 'true' }}
       env:
         CONTEXT: ${{ toJSON(github) }}
