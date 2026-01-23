@@ -8,41 +8,54 @@ vars:
 tasks:
   default:
     cmds:
+      - task: audit
+      - task: test
       - task: lint
-      - task: lint-workflows
-
-  hello:
-    desc: Print a greeting message
-    cmds:
-      - echo "{{.GREETING}}"
+      - task: fmt
+      - task: run
 
   run:
     desc: Run excellent Go program
+    dir: "{{.GO_PROJECT}}"
     cmds:
-      - go run "{{.GO_PROJECT}}/main.go"
-    silent: true
+      - go run .
+
+  fmt:
+    desc: Format Go code
+    dir: "{{.GO_PROJECT}}"
+    cmds:
+      - go fmt ./...
 
   test:
     desc: Test Go code
-    dir: "{{ .GO_PROJECT }}"
+    dir: "{{.GO_PROJECT}}"
     cmds:
       - go test -v
 
-  format:
-    desc: Format Go code
-    dir: "{{ .GO_PROJECT }}"
-    cmds:
-      - go fmt ./...
-  format-all:
-    cmds:
-      - task: format
-      - textlint --fix "**/*.md"
-
-  lint:
+  lint-go:
     desc: Lint Go code
-    dir: "{{ .GO_PROJECT }}"
+    dir: "{{.GO_PROJECT}}"
     cmds:
+      - go vet ./...
       - golangci-lint run
+
+  audit-go:
+    desc: Audit Go code
+    dir: "{{.GO_PROJECT}}"
+    cmds:
+      - govulncheck ./...
+
+  update-go:
+    desc: Update Go dependencies
+    dir: "{{.GO_PROJECT}}"
+    cmds:
+      - go get -u ./...
+      - go mod tidy
+
+  pinact-update:
+    desc: Update GitHub Actions (both workflows and actions)
+    cmds:
+      - pinact run --update
 
   lint-workflows:
     desc: Lint GitHub Workflows
@@ -53,3 +66,20 @@ tasks:
     desc: Lint GitHub Workflows with Docker
     cmds:
       - docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" rhysd/actionlint:latest --verbose
+
+  lint-actions:
+    desc: Lint GitHub Workflows & Actions
+    cmds:
+      - find -name action.yml -o -name action.yaml | xargs action-validator -v
+
+  lint:
+    desc: Lint all
+    cmds:
+      - task: lint-go
+      - task: lint-workflows
+      - task: lint-actions
+
+  audit:
+    desc: Audit all
+    cmds:
+      - task: audit-go
