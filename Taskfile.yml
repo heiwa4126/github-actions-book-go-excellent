@@ -57,6 +57,11 @@ tasks:
     cmds:
       - pinact run --update
 
+  lint-actions:
+    desc: Lint GitHub Actions
+    cmds:
+      - find -name action.yml -o -name action.yaml | xargs action-validator -v
+
   lint-workflows:
     desc: Lint GitHub Workflows
     cmds:
@@ -66,11 +71,6 @@ tasks:
     desc: Lint GitHub Workflows with Docker
     cmds:
       - docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" rhysd/actionlint:latest --verbose
-
-  lint-actions:
-    desc: Lint GitHub Workflows & Actions
-    cmds:
-      - find -name action.yml -o -name action.yaml | xargs action-validator -v
 
   lint:
     desc: Lint all
