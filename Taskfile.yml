@@ -8,19 +8,17 @@ vars:
 tasks:
   default:
     cmds:
+      - task: audit
+      - task: test
       - task: lint
-      - task: lint-workflows
-
-  hello:
-    desc: Print a greeting message
-    cmds:
-      - echo "{{.GREETING}}"
+      - task: fmt
+      - task: run
 
   run:
     desc: Run excellent Go program
+    dir: "{{.GO_PROJECT}}"
     cmds:
-      - go run "{{.GO_PROJECT}}/main.go"
-    silent: true
+      - go run .
 
   fmt:
     desc: Format Go code
