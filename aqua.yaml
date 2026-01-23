@@ -16,3 +16,4 @@ packages:
   - name: suzuki-shunsuke/pinact@v3.8.0
   - name: rhysd/actionlint@v1.7.10
   - name: mpalmer/action-validator@v0.8.0
+  - name: golang/vuln/govulncheck@v1.1.4

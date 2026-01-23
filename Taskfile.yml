@@ -22,23 +22,42 @@ tasks:
       - go run "{{.GO_PROJECT}}/main.go"
     silent: true
 
+  fmt:
+    desc: Format Go code
+    dir: "{{.GO_PROJECT}}"
+    cmds:
+      - go fmt ./...
+
   test:
     desc: Test Go code
     dir: "{{.GO_PROJECT}}"
     cmds:
       - go test -v
 
-  lint:
+  lint-go:
     desc: Lint Go code
     dir: "{{.GO_PROJECT}}"
     cmds:
+      - go vet ./...
       - golangci-lint run
 
-  fmt:
-    desc: Lint Go code
+  audit-go:
+    desc: Audit Go code
     dir: "{{.GO_PROJECT}}"
     cmds:
-      - go fmt ./...
+      - govulncheck ./...
+
+  update-go:
+    desc: Update Go dependencies
+    dir: "{{.GO_PROJECT}}"
+    cmds:
+      - go get -u ./...
+      - go mod tidy
+
+  pinact-update:
+    desc: Update GitHub Actions (both workflows and actions)
+    cmds:
+      - pinact run --update
 
   lint-workflows:
     desc: Lint GitHub Workflows
@@ -53,4 +72,16 @@ tasks:
   lint-actions:
     desc: Lint GitHub Workflows & Actions
     cmds:
-      - "action-validator -v .github/workflows/*.yml .github/actions/*/action.yml"
+      - find -name action.yml -o -name action.yaml | xargs action-validator -v
+
+  lint:
+    desc: Lint all
+    cmds:
+      - task: lint-go
+      - task: lint-workflows
+      - task: lint-actions
+
+  audit:
+    desc: Audit all
+    cmds:
+      - task: audit-go
